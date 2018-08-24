@@ -1,0 +1,58 @@
+---
+# Instalacao da Monitoracao - Grafana 
+- name: "Installing and configuring Prometheus + Grafana + Nginx LB"
+  hosts: local
+  tasks:
+
+  - name: "Cloning Prometheus from External REPO"
+    command: git clone https://github.com/cloudalchemy/ansible-prometheus.git roles/ansible-prometheus
+    ignore_errors: yes
+
+  - name: "Add prometheus playbook"
+    copy:
+      src: /home/vagrant/challenge/monit/prometheus_ansible.yml
+      dest: /etc/ansible/prometheus.yml
+      owner: root
+    ignore_errors: yes
+
+  - name: "Configuring prometheus"
+    command: ansible-playbook prometheus.yml --connection=local
+    ignore_errors: yes
+
+  - name: "Installing Docker"
+    apt: name=docker.io state=present update_cache=yes
+    ignore_errors: yes 
+
+  - name: "Add target weather"
+    copy:
+      src: /home/vagrant/challenge/monit/prometheus.yml
+      dest: /etc/prometheus/prometheus.yml
+      owner: root
+      group: prometheus
+      mode: 0640
+    notify: restart_prometheus
+    ignore_errors: yes
+
+  - name: "Configuring nginx LB"
+    copy: 
+      src: /home/vagrant/challenge/monit/default
+      dest: /etc/nginx/sites-enabled/default
+      owner: root
+    notify: restart_nginx 
+
+  - name: "Adding docker volume to Grafana" 
+    command: 'docker run -d --user 0 --volume "/home/vagrant/challenge/data:/var/lib/grafana" -p 3000:3000 grafana/grafana'
+    ignore_errors: yes
+
+
+  handlers:
+  - name: restart_prometheus
+    service:
+     name: prometheus
+     state: restarted
+  
+  - name: restart_nginx
+    service: 
+      name: nginx
+      state: restarted
+

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/img/css/all.css') }}">
+<style>
+body {background: #555;}
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+.input-container {
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+
+body, html {
+    height: 100%;
+}
+
+.bg1 {
+    background-image: url("/static/background.jpg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.icon {
+    padding: 10px;
+    background: dodgerblue;
+    color: white;
+    min-width: 50px;
+    text-align: center;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+}
+
+.input-field:focus {
+    border: 2px solid dodgerblue;
+}
+
+/* Set a style for the submit button */
+.btn {
+    background-color: dodgerblue;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+.content {
+    max-width: 350px;
+    margin: auto;
+    background: white;
+    opacity: 0.7;
+    padding: 10px;
+}
+
+
+.btn:hover {
+    opacity: 1;
+}
+
+
+</style>
+</head>
+
+<body>
+  <div class="bg1">    
+    <div class="content">
+      <form method="POST" action="/weather" style="max-width:300px;margin:auto">
+        <h2>Weather Challenge</h2>
+        
+          <div class="input-container">
+            <i class="fas fa-map icon"></i>
+            <input class="input-field" type="text" placeholder="Enter Latitude" name="lat" required>
+          </div>
+
+          <div class="input-container">
+            <i class="fa fa-map icon"></i>
+            <input class="input-field" type="text" placeholder="Enter Longitude" name="lon" required>
+          </div>
+  
+          <div class="input-container">
+            <b><input type="radio" name="metric" value="si" checked> Metric
+            <input type="radio" name="metric" value="us"> Imperial<br><br></b>
+          </div>
+
+          <div class="input-container">
+            <i class="fas fa-thermometer-empty icon"></i>
+            <input type="number" name="t_threshold" placeholder=" Temp thres (0,0)" min="0" step="0.1"><br> 
+          </div> 
+
+          <div class="input-container ">
+            <i class="fas fa-exclamation-triangle icon"> </i>
+            <input type="number" name="w_threshold" placeholder="Wind Thres. (0,0)" min="0" step="0.1"><br>
+          </div>
+
+         <button type="submit" class="btn">Submit</button>
+       </form>
+     </div>
+   </div>
+</body>
+
+</html>
+

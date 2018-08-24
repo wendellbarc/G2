@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/css/weather-icons.css') }}">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body, html {
+    height: 100%;
+}
+
+.bg1 {
+    /* The image used */
+  background-image: url("/static/background.jpg");
+
+    /* Full height */
+    height: 1200px;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.content {
+    width: 60%;
+    margin: auto;
+    background: white;
+    opacity: 0.7;
+    padding: 10px;
+}
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 30%;
+  padding: 0 10px;
+}
+
+h1 {
+    color: black;
+    font-family: courier new;
+    font-size: 300%;
+
+}
+
+/* Float four columns side by side */
+.column2 {
+  float: center;
+  width: 90%;
+  padding: 0 10px;
+}
+
+
+
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  opacity: 0.7;
+  background-color: #f1f1f1;
+
+}
+</style>
+</head>
+<body>
+
+  <div class="bg1">
+    <div class="row">
+      <div class="content">
+        <div class="card">
+          <h2>Current Forecast</h2>
+          <i class="wi wi-forecast-io-{{ json.currently.icon }}" style="font-size:36px;"></i>
+          <h6>{{ json.currently.icon }}</h6></p>
+          <i class="wi wi-thermometer" style="font-size:36px;" ></i><font size="7">{{ json.currently.temperature|int }}<i class="wi wi-degrees"></i></h1></font>
+          <p><h6>Weekly: {{ json.daily.summary }}</h6></p>
+          <p>
+          <p>Latitude: {{ json.latitude }} 
+          <p>Longitude: {{ json.longitude }}
+          <p>Timezone: {{ json.timezone }}  
+          <p><i class="wi wi-time-1" style="font-size:18px;"   ></i> {{ currenttime }}</p>
+          <p><i class="wi wi-raindrops" style="font-size:18px;" ></i>  Precipitation:   {{ json.currently.precipProbability }}</p>
+          <p><i class="wi wi-thermometer" style="font-size:18px;" ></i>  Temperature:   {{ json.currently.temperature }}</p>
+          <p><i class="wi wi-humidity" style="font-size:18px;  "></i>  Humidity:   {{ json.currently.humidity * 100 }}</p>
+          <p><i class="wi wi-strong-wind" style="font-size:18px;"  ></i>  Wind Speed:   {{ json.currently.windSpeed }}</p>
+        </div> 
+      </div>
+    </div> <br> 
+
+
+    <div class="row">
+      <div class="column">
+        <div class="card">
+          <h3>Today
+          <p><i class="wi wi-forecast-io-{{ json.daily.data.0.icon }}" style="font-size:36px;"></h3></i></p>
+          <p><h6>{{ json.daily.data.0.summary }}</h6></p>
+          <p><i class="wi wi-thermometer" style="font-size:18px; color:blue;" ></i>  Temperature Min:   {{ json.daily.data.0.temperatureMin }}</p>
+          <p><i class="wi wi-thermometer" style="font-size:18px; color:red;" ></i>  Temperature Max:  {{ json.daily.data.0.temperatureMax }}</p>
+          <p><i class="wi wi-raindrop" style="font-size:18px; color:lightblue;"></i>  Precipitation:   {{ json.daily.data.0.precipProbability }}</p>
+          <p><i class="wi wi-raindrops" style="font-size:18px; color:lightblue;"></i>  Precipitation intensity:   {{ json.daily.data.0.precipIntensity }}</p>
+          <p><i class="wi wi-raindrops" style="font-size:18px; color:lightblue;"></i>  Precipitation intensity max:   {{ json.daily.data.0.precipIntensityMax }}</p>
+          <p><i class="wi wi-humidity" style="font-size:18px;"></i>  Humidity:    {{ json.daily.data.0.humidity * 100}}</p>
+          <p><i class="wi wi-strong-wind" style="font-size:18px;"></i>  Wind Speed:    {{ json.daily.data.0.windSpeed }}</p>
+          {% if  json.daily.data.0.temperatureMax|float  < t_threshold|float %}
+          <i class="wi wi-thermometer-internal" style="font-size:18px; color:yellow"></i>  Temp threshold ({{ t_threshold }}): YES <img src="{{ url_for('static',filename="warning.png") }}"><br></p>
+          {% else %}<i class="wi wi-thermometer-internal" style="font-size:18px; color:yellow"></i>  Temp threshold ({{ t_threshold }}): NO <img src="{{ url_for('static',filename="checked.png") }}"><br></p>
+          {% endif %}
+          {% if json.daily.data.0.windSpeed|float < w_threshold|float %}
+          <i class="wi wi-windy" style="font-size:18px; color:yellow"></i>  Wind threshold ({{ w_threshold }}): YES <img src="{{ url_for('static',filename="warning.png") }}"></p><br>
+          {% else %}<i class="wi wi-windy" style="font-size:18px; color:yellow"></i>  Wind threshold ({{ w_threshold }}): NO <img src="{{ url_for('static',filename="checked.png") }}"></p><br>
+          {% endif %}
+
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <h3>In one day</h3>
+
+            <p><i class="wi wi-forecast-io-{{ json.daily.data.1.icon }}" style="font-size:36px;"></h3></i></p>
+            <p><h6>{{ json.daily.data.1.summary }}</h6></p>
+            <p><i class="wi wi-thermometer" style="font-size:18px; color:blue;" ></i>  Temperature Min:   {{ json.daily.data.1.temperatureMin }}</p>
+            <p><i class="wi wi-thermometer" style="font-size:18px; color:red;" ></i>  Temperature Max:  {{ json.daily.data.1.temperatureMax }}</p>
+            <p><i class="wi wi-raindrop" style="font-size:18px; color:lightblue;"></i>  Precipitation:   {{ json.daily.data.1.precipProbability }}</p>
+            <p><i class="wi wi-raindrops" style="font-size:18px; color:lightblue;"></i>  Precipitation intensity:   {{ json.daily.data.1.precipIntensity }}</p>
+            <p><i class="wi wi-raindrops" style="font-size:18px; color:lightblue;"></i>  Precipitation intensity max:   {{ json.daily.data.1.precipIntensityMax }}</p>
+            <p><i class="wi wi-humidity" style="font-size:18px;"></i>  Humidity:    {{ json.daily.data.1.humidity * 100}}</p>
+            <p><i class="wi wi-strong-wind" style="font-size:18px;"></i>  Wind Speed:    {{ json.daily.data.1.windSpeed }}</p>
+            <p><i class="wi wi-night-clear" style="font-size:18px;"></i>  Temperature night:   {{ json.daily.data.1.temperatureLow }}</p>
+            <p><i class="wi wi-day-sunny" style="font-size:18px; color:orange;"></i>  Temperature day:   {{ json.daily.data.1.temperatureHigh }}</p>
+
+            {% if  json.daily.data.1.temperatureMax|float  < t_threshold|float %}
+            <i class="wi wi-thermometer-internal" style="font-size:18px; color:yellow"></i>  Temp threshold ({{ t_threshold }}): YES <img src="{{ url_for('static',filename="warning.png") }}"><br></p>
+            {% else %}<i class="wi wi-thermometer-internal" style="font-size:18px; color:yellow"></i>  Temp threshold ({{ t_threshold }}): NO <img src="{{ url_for('static',filename="checked.png") }}"><br></p>
+            {% endif %}
+            {% if json.daily.data.1.windSpeed|float < w_threshold|float %}
+            <i class="wi wi-windy" style="font-size:18px; color:yellow"></i>  Wind threshold ({{ w_threshold }}): YES <img src="{{ url_for('static',filename="warning.png") }}"></p><br>
+            {% else %}<i class="wi wi-windy" style="font-size:18px; color:yellow"></i>  Wind threshold ({{ w_threshold }}): NO <img src="{{ url_for('static',filename="checked.png") }}"></p><br>
+            {% endif %}
+
+          </div>
+        </div>
+  
+        <div class="column">
+          <div class="card">
+            <h3>In two days</h3>
+            <p><i class="wi wi-forecast-io-{{ json.daily.data.2.icon }}" style="font-size:36px;"></h3></i></p>
+            <p><h6>{{ json.daily.data.2.summary }}</h6></p>
+            <p><i class="wi wi-thermometer" style="font-size:18px; color:blue;" ></i>  Temperature Min:   {{ json.daily.data.2.temperatureMin }}</p>
+            <p><i class="wi wi-thermometer" style="font-size:18px; color:red;" ></i>  Temperature Max:  {{ json.daily.data.2.temperatureMax }}</p>
+            <p><i class="wi wi-raindrop" style="font-size:18px; color:lightblue;"></i>  Precipitation:   {{ json.daily.data.2.precipProbability }}</p>
+            <p><i class="wi wi-raindrops" style="font-size:18px; color:lightblue;"></i>  Precipitation intensity:   {{ json.daily.data.2.precipIntensity }}</p>
+            <p><i class="wi wi-raindrops" style="font-size:18px; color:lightblue;"></i>  Precipitation intensity max:   {{ json.daily.data.2.precipIntensityMax }}</p>
+            <p><i class="wi wi-humidity" style="font-size:18px;"></i>  Humidity:    {{ json.daily.data.2.humidity * 100}}</p>
+            <p><i class="wi wi-strong-wind" style="font-size:18px;"></i>  Wind Speed:    {{ json.daily.data.2.windSpeed }}</p>
+            <p><i class="wi wi-night-clear" style="font-size:18px;"></i>  Temperature night:   {{ json.daily.data.2.temperatureLow }}</p>
+            <p><i class="wi wi-day-sunny" style="font-size:18px; color:orange;"></i>  Temperature day:   {{ json.daily.data.2.temperatureHigh }}</p>
+            {% if  json.daily.data.2.temperatureMax|float  < t_threshold|float %}
+            <i class="wi wi-thermometer-internal" style="font-size:18px; color:yellow"></i>  Temp threshold ({{ t_threshold }}): YES <img src="{{ url_for('static',filename="warning.png") }}"><br></p>
+            {% else %}<i class="wi wi-thermometer-internal" style="font-size:18px; color:yellow"></i>  Temp threshold ({{ t_threshold }}): NO <img src="{{ url_for('static',filename="checked.png") }}"><br></p>
+            {% endif %}
+            {% if json.daily.data.2.windSpeed|float < w_threshold|float %}
+            <i class="wi wi-windy" style="font-size:18px; color:yellow"></i>  Wind threshold ({{ w_threshold }}): YES <img src="{{ url_for('static',filename="warning.png") }}"></p><br>
+            {% else %}<i class="wi wi-windy" style="font-size:18px; color:yellow"></i>  Wind threshold ({{ w_threshold }}): NO <img src="{{ url_for('static',filename="checked.png") }}"></p><br>
+            {% endif %}
+
+          </div>
+        </div>
+  
+      </body>
+    </div>
+</html>
+
