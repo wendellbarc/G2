@@ -31,7 +31,7 @@ node {
          * Pushing multiple tags is cheap, as all the layers are reused. */
 	 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
           sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-          sh 'docker push shanem/spring-petclinic:latest'
+          sh 'docker push wendellbarc/python-teste2:latest'
         }
     }
 }
