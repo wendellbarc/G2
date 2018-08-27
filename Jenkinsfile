@@ -11,7 +11,6 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("python-teste")
         sh "cd /home/vagrant/challenge/; sudo docker build -t python-teste:1  --pull --no-cache . -p 5000:5000 -p 8000:8000"
         echo "Image build complete"
     }
