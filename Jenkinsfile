@@ -11,17 +11,17 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        sh "cd /home/vagrant/challenge/; sudo docker build -t python-teste2 ."
+        sh "cd /home/vagrant/challenge/; docker build -t python-teste2 ."
         echo "Image build complete"
     }
 
 
    stage('Docker test'){
-      sh 'sudo docker run -d --rm python-teste2 -p 5000:5000 -p 8000:8000'
+      sh 'docker run -d --rm python-teste2 -p 5000:5000 -p 8000:8000'
     }
 
     stage('Clean Docker test'){
-      sh 'sudo docker rmi python-teste2'
+      sh 'docker rmi python-teste2'
     }
 
     stage('Push image') {
