@@ -20,7 +20,7 @@ node {
          * For this example, we're using a Volkswagen-type approach ;-) */
 
         steps {
-            sh 'ls'
+            sh 'ss -ntpl | grep 5000'
         }
     }
 
