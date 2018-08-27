@@ -12,7 +12,7 @@ node {
          * docker build on the command line */
 
         sh "cd /home/vagrant/challenge/;"
-        app = docker.build("python-teste2")
+        app = docker.build("python-teste2:${env.BUILD_ID}")
         echo "Image build complete"
     }
 
