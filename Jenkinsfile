@@ -12,6 +12,8 @@ node {
          * docker build on the command line */
 
         app = docker.build("python-teste")
+        sh "docker build -t python-teste:1  --pull --no-cache . -p 5000:5000 -p 8000:8000"
+        echo "Image build complete"
     }
 
     stage('Test image') {
