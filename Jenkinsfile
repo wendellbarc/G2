@@ -17,11 +17,11 @@ node {
 
 
    stage('Docker test'){
-      sh 'docker run --rm python-teste2'
+      sh 'sudo docker run --rm python-teste2'
     }
 
     stage('Clean Docker test'){
-      sh 'docker rmi python-teste2'
+      sh 'sudo docker rmi python-teste2'
     }
 
     stage('Push image') {
