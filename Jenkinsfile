@@ -17,7 +17,7 @@ node {
 
 
    stage('Docker test'){
-      sh 'sudo docker run --rm python-teste2'
+      sh 'sudo docker run -d --rm python-teste2 -p 5000:5000 -p 8000:8000'
     }
 
     stage('Clean Docker test'){
