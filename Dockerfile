@@ -8,8 +8,4 @@ RUN pip install -r requirements.txt
 ENTRYPOINT ["python"] 
 CMD ["weather.py"]
 
-# set a health check
-HEALTHCHECK --interval=5s \
-            --timeout=5s \
-            CMD curl -f http://192.168.99.13:5000 || exit 1
 
