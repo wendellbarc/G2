@@ -23,7 +23,6 @@ node {
 
     stage('Clean Docker test'){
       sh 'sudo docker stop python-temp'
-      sh 'sudo docker rm python-temp'
     }
 
     stage('Deploy new image') {
