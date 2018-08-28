@@ -33,7 +33,8 @@ node {
 	 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
          /* sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
           sh 'docker push wendellbarc/python-teste2:latest' */
-          sh 'docker stop python-alpine' 
+          sh 'docker stop python-alpine'
+          sh 'docker rm python-alpine' 
           sh 'docker run -u root -d --restart always -p 8000:8000 -p 5000:5000 --name python-alpine python-alpine'
         }
     }
