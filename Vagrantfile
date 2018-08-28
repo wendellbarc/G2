@@ -10,6 +10,7 @@ Vagrant.configure(2) do |config|
    weather1.vm.provision "shell", inline: <<-SHELL
      apt-get update
      apt-get install python-pip -y
+     apt-get install docker.io -y
      pip install pip
      pip install flask --upgrade
      pip install requests --upgrade
@@ -19,7 +20,7 @@ Vagrant.configure(2) do |config|
    SHELL
 
    config.vm.provider "virtualbox" do |weather1|
-     weather1.memory = "512"
+     weather1.memory = "1024"
    end
  end
 
