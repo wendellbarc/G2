@@ -34,4 +34,3 @@ node {
           sh 'docker run -u root -d --restart always -p 8000:8000 -p 5000:5000 --name python-alpine python-alpine'
         }
     }
-}
