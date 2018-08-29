@@ -17,12 +17,12 @@ node {
 
 
    stage('Testing new image'){
-      sh 'sudo docker run -d --rm  -p 5001:5000 --name python-temp python-alpine'
+      sh 'docker run -d --rm  -p 5001:5000 --name python-temp python-alpine'
       sh 'ss -ntpl | grep 5001'
     }
 
     stage('Clean Docker test'){
-      sh 'sudo docker stop python-temp'
+      sh 'docker stop python-temp'
     }
 
     stage('Deploy new image') {
