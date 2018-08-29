@@ -18,7 +18,7 @@ node {
 
    stage('Testing new image'){
       sh 'docker run -d --rm  -p 5001:5000 --name python-temp python-alpine'
-      sh 'ss -ntpl | grep 5001'
+      sh "ss -ntpl | grep 5001"
     }
 
     stage('Clean Docker test'){
