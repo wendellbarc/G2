@@ -11,7 +11,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-	sh "cd /home/vagrant/challenge/; sudo docker build -t python-alpine ."
+	sh "sudo docker build -t python-alpine ."
         echo "Image build complete"
     }
 
