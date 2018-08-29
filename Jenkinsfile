@@ -11,7 +11,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-	sh "sudo docker build -t python-alpine ."
+	sh "docker build -t python-alpine ."
         echo "Image build complete"
     }
 
